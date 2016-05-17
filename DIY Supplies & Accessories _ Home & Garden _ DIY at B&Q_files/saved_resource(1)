@@ -1,0 +1,51 @@
+mmcore.SetCookie('mmid','-1615888932|DAAAAAo46+aoSg0AAA==',365,1);mmcore.SetCookie('pd','373141614|FwAAAAoBQjjr5qhKDb1oEwwDAPfCVxLBfdNIDwAAAF9vfO/gbNNIAAAAAP//////////AAZEaXJlY3QBXA0CAAAAAQAAAAAAADWqAAA1qgAANaoAAAIAhG0AAADGFbOYSg0A/////wFKDV8N//8QAAABAAAAAAGlNgEA7Z0BAACBXgAAAKFeT9BKDQD/////AUoNXw3//wgAAAEAAAAAAasUAQCZYwEAAAAAAAFF',365);mmcore.SetCookie('srv','ldnvwcgeu09',365);(function(){if(typeof(mmcore.GenInfo)!='object')mmcore.GenInfo={};mmcore.EH=function(e){var s=e.message+'\r\n';if(!window.mm_error)window.mm_error=s;else window.mm_error+=s;};
+mmcore.GenInfo['Desktop_Tablet_Master_March_16']={'element1':'t24_top_navigation_restructure'};
+mmcore.GenInfo['T24_Top_Navigation_Restructure']={'a_topnavt24':'Default'};
+var tc={'mm_t24_topnav':{'h':[],'c':[],'l':[]}}
+try{
+// Maxymiser Core - Attach Style v0.0.0 http://gitlab.maxymiser.net/gts/mmcore-attach-style/tree/master
+(function(){'use strict';mmcore.AttachStyle=function(){var c={STYLE_ID:"mm-style",createStyle:function(){var b=document.createElement("style");b.type="text/css";return b},appendCssToStyle:function(){var b,a;"styleSheet"in c.createStyle()?(b=function(a){return a.styleSheet.cssText},a=function(a,b){a.styleSheet.cssText=b}):(b=function(a){return a.innerHTML},a=function(a,b){a.innerHTML=b});return(c.appendCssToStyle=function(c,d){a(d,b(d)+c)}).apply(this,arguments)}};return function(b){var a=document.getElementById(c.STYLE_ID);a||(a=c.createStyle(),a.id=c.STYLE_ID,function(){this.parentNode.insertBefore(a,this)}.call(document.getElementsByTagName("head")[0].lastChild));c.appendCssToStyle(b,a)}}()})();
+}catch(err){mmcore.EH(err);}
+try{
+/**
+ * [script name]
+ * This script's purpose is to [check generation rules, track actions, e.t.c].
+ *
+ * @author Anton Lunov anton.lunov@maxymiser.com
+ * @date 25.11.2015
+ */
+    
+;
+(function() {
+
+    $(document).on('touchstart mousedown', '#site-navigation a', function(e) {
+      if (!e.button)
+      	mmcore.$Action('T24_Nav_Click', 1, $(this).text());
+	});
+})();
+}catch(err){mmcore.EH(err);}
+try{
+/**
+ * [script name]
+ * This script's purpose is to [check generation rules, track actions, e.t.c].
+ *
+ * @author Anton Lunov anton.lunov@maxymiser.com
+ * @date 23.03.2016
+ */
+    
+;
+(function() {
+
+    $(document)
+	    .on('touchstart mousedown', '.nav-shop a, .mm_t24_nav .mm_t24_sub_nav a', function(e) {
+	    	var selector = $('.mm_t24_nav').length ? 'div': '.nav-shop-sub',
+	    		attr = $(this).closest(selector).children('a').text();
+    
+		    if (!e.button)
+		      	mmcore.$Action('T24_Cat_Clicks', 1, attr);
+		});
+})();
+}catch(err){mmcore.EH(err);}
+mmcore._RenderOnLoad();if(typeof mmcore._callback=='object'&&typeof mmcore._callback[2]=='function'){try{mmcore._callback[2]();}catch(err){mmcore.EH(err);}
+finally{mmcore._callback[2]=null;}}
+})();

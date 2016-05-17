@@ -1,0 +1,6 @@
+applications:
+- name: diycom
+  framework:
+    type: php
+  instances: 1
+  memory: 16

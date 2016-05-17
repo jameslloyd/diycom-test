@@ -1,0 +1,1 @@
+certonaRecommendations({"resonance":{"schemes":[{"scheme":"home1_rr","explanation":"","display":"no","items":[]}]}});

@@ -1,0 +1,915 @@
+mmcore.SetCookie('mmid','706319439|CwAAAAo46+aoSg0AAA==',365,1);mmcore.SetCookie('pd','790986731|FgAAAAoBQjjr5qhKDb1oEwwDAEcyOxLBfdNIDwAAAF9vfO/gbNNIAAAAAP//////////AAZEaXJlY3QBXA0CAAAAAQAAAAAAADWqAAA1qgAANaoAAAIAhG0AAADGFbOYSg0A/////wFKDV8N//8PAAABAAAAAAGlNgEA7Z0BAACBXgAAAKFeT9BKDQD/////AUoNXw3//wcAAAEAAAAAAasUAQCZYwEAAAAAAAFF',365);mmcore.SetCookie('srv','ldnvwcgeu09',365);(function(){if(typeof(mmcore.GenInfo)!='object')mmcore.GenInfo={};mmcore.EH=function(e){var s=e.message+'\r\n';if(!window.mm_error)window.mm_error=s;else window.mm_error+=s;};
+mmcore.GenInfo['Desktop_Tablet_Master_March_16']={'element1':'t24_top_navigation_restructure'};
+try{
+;
+mmcore.namespace = function(namespaceString) {
+	var namespaceParts = namespaceString.split('.'),
+		parent = mmcore,
+		currentPart;
+
+	if (namespaceParts.indexOf('mmcore') === 0) {
+		namespaceParts.splice(0, 1);
+	}
+
+	for (var i = 0; i < namespaceParts.length; i++) {
+		currentPart = namespaceParts[i];
+		parent[currentPart] = parent[currentPart] || {};
+		parent = parent[currentPart];
+	}
+
+	return parent;
+};
+}catch(err){mmcore.EH(err);}
+try{
+!function(a){var b="2.1.5",c={},d=function(a,b){return"string"==typeof a&&a?(b=b||{},c[a]={validate:b.validate||function(){return!0},check:b.check||function(){return!0},interval:b.interval||50,defaults:b.defaults||{},exec:b.exec}):(f.logError(f.errorMessages[0]),null)},e=function(a,b){var d,e=c[a],g=e.defaults||{};if("string"!=typeof a)return f.logError(f.errorMessages[0],a);if(!e.exec)return f.logError(f.errorMessages[1],a);if(b.redirect&&f.isGenerationPage(b.campaign)&&f.hasNoneDefaultExperience(b))f.saveCampaignExperience(b);else if(b.campaignInfo=b.campaignInfo||f.getCampaignInfo(b),b.campaignInfo){for(var h in g)g.hasOwnProperty(h)&&"undefined"==typeof b[h]&&(b[h]=g[h]);b.isProduction=f.isProduction(),d=f.isValidData.call(e,b),"string"==typeof d?f.logError(d,a):(f.executeModifiers.call(e,b),f.sendIntegrationData.call(e,b))}},f={errorMessages:["Invalid integration build, name is required.","Invalid integration build, exec is required."],logError:function(b,c){a.EH({message:"["+(c?c:"Integration")+"] "+b})},isGenerationPage:function(b){return a.GenInfo[b]},hasNoneDefaultExperience:function(a){var b,c=this.getCampaignExperience(a),d=!1;for(b in c)if(c.hasOwnProperty(b)&&"Default"!==c[b]){d=!0;break}return d},getCampaignExperience:function(b){var c=a.GenInfo[b.campaign];return b.redirect&&!c&&(c=JSON.parse(a.GetCookie("mm_redir_"+b.campaign,1)||"{}")),c},saveCampaignExperience:function(b){var c=b.campaign,d=a.GenInfo[b.campaign];a.SetCookie("mm_redir_"+c,JSON.stringify(d),0,1)},getCampaignInfo:function(a){var b,c=this.getCampaignExperience(a),d=[];if(!c)return this.logError(a.campaign+" is not found.");for(b in c)d.push(b+":"+c[b]);return a.campaign+"="+d.join("|")},isProduction:function(){for(var b=["cfgid","opc.enabled","opc.vis","pt.enabled","un"],c=0;c<b.length;c++)if(a.GetParam(b[c]))return!1;return!0},isValidData:function(a){return this.validate.call(this,a)},executeModifiers:function(a){var b,c=this.defaults.modifiers;if(c)for(b in c)c[b].call(this,a)},sendIntegrationData:function(b){var c=this,d=c.defaults.isStopOnDocEnd;d=d||"undefined"==typeof d?!0:!1,function e(){c.check(b)?c.exec(b):d&&a._docEnd||setTimeout(e,c.interval)}()}};a.IntegrationFactory=a.IntegrationFactory||{VERSION:b,integrations:c,register:d,initialize:e}}(window.mmcore||{});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+}catch(err){mmcore.EH(err);}
+try{
+mmcore.IntegrationFactory.register(
+  'ClickTale', {
+    validate: function (data) {
+      if(!data.campaign)
+          return 'No campaign.';
+      return true;
+    },
+
+    check: function (data) {
+      return (typeof window.jQuery === 'function' &&
+              typeof window.ClickTaleField === 'function');
+    },
+
+    exec: function (data) {
+      var mode = data.isProduction ? 'MM_Prod_' : 'MM_Sand_',
+          campaignInfo = mode + data.campaignInfo;
+
+      if (!window.EventStr) {
+        window.EventStr = campaignInfo;
+      } else {
+        window.EventStr += ' - ' + campaignInfo;
+        jQuery(window).trigger('MMReady', campaignInfo);
+      }
+
+      if(data.callback) data.callback();
+      return true;
+    }
+  }
+);
+}catch(err){mmcore.EH(err);}
+try{
+mmcore.IntegrationFactory.register(
+  'foresee', {
+    defaults: {
+        isStopOnDocEnd: false
+    },
+   validate: function (data) {  
+        if(!data.campaign)
+            return 'No campaign.';
+        return true;  
+    },
+    check: function (data) {
+
+      return window.FSR && window.FSR.CPPS && window.FSR.CPPS.set; 
+
+    },
+    exec: function (data) {
+         var prodSand = data.isProduction ? 'MM_Prod' : 'MM_QA';
+         FSR.CPPS.set(prodSand + data.campaign, data.campaignInfo);  
+        if (data.callback) data.callback();
+        return true;
+    }  
+});
+}catch(err){mmcore.EH(err);}
+try{
+// Maxymiser Core - Attach Style v0.0.0 http://gitlab.maxymiser.net/gts/mmcore-attach-style/tree/master
+(function(){'use strict';mmcore.AttachStyle=function(){var c={STYLE_ID:"mm-style",createStyle:function(){var b=document.createElement("style");b.type="text/css";return b},appendCssToStyle:function(){var b,a;"styleSheet"in c.createStyle()?(b=function(a){return a.styleSheet.cssText},a=function(a,b){a.styleSheet.cssText=b}):(b=function(a){return a.innerHTML},a=function(a,b){a.innerHTML=b});return(c.appendCssToStyle=function(c,d){a(d,b(d)+c)}).apply(this,arguments)}};return function(b){var a=document.getElementById(c.STYLE_ID);a||(a=c.createStyle(),a.id=c.STYLE_ID,function(){this.parentNode.insertBefore(a,this)}.call(document.getElementsByTagName("head")[0].lastChild));c.appendCssToStyle(b,a)}}()})();
+}catch(err){mmcore.EH(err);}
+try{
+;(function() {
+  function bind(el, func) {
+    if (el.addEventListener) {
+      el.addEventListener('beforeprint', func, false);
+    } else if (el.attachEvent) {
+      el.attachEvent('onbeforeprint', func);
+    }
+  }
+  if (navigator.userAgent.match(/msie/i)) {
+    bind(window, function() {
+      var nodes = document.getElementsByTagName('script'),
+          i;
+      for (i = nodes.length; i--;) {
+        if ((nodes[i].id || '').match(mmcore.cprefix)) {
+          nodes[i].removeAttribute('src');
+        }
+      }
+    });
+  }
+})();
+}catch(err){mmcore.EH(err);}
+try{
+// Maxymiser Core - Essentials v0.3.0 http://gitlab.maxymiser.net/gts/mmcore-essentials/tree/master
+
+// Maxymiser Core - Try Catch v0.0.0 http://gitlab.maxymiser.net/gts/mmcore-try-catch/tree/master
+(function(){'use strict';mmcore.tryCatch=function(){return function b(c,d){var e=arguments.length;return function(){try{return c.apply(this,arguments)}catch(a){try{mmcore.EH(a)}finally{1<e&&b(d)(a)}}}}}()})();
+
+mmcore.tryCatch(function(){'use strict';
+
+// Maxymiser Core - jQuery Arrival v0.1.1 http://gitlab.maxymiser.net/gts/mmcore-jquery-arrival/tree/master
+(function(b,a,c){'use strict';if(mmcore.addJQueryArrivalCallback=function(a){a=mmcore.tryCatch(a),typeof mmcore.jQuery==='function'?a(mmcore.jQuery):mmcore.jQueryArrivalCallbacks.push(a);},typeof mmcore.jQuery==='function')return;b='//service.maxymiser.net/cdn/assets/js/jquery-1.9.1.min.js',c=function(){delete mmcore.jQueryArrivalCallbacks;},document.write('<script id="mm-jquery" src="'+b+'"></script>'),a=document.getElementById('mm-jquery'),a?function b(){setTimeout(function(){a.nextSibling?delete mmcore.jQueryArrivalCallbacks:b();},500);}():(a=document.createElement('script'),a.readyState==='uninitialized'?a.onreadystatechange=function(){a.readyState==='loaded'&&c();}:a.onload=a.onerror=c,a.src=b,document.getElementByTagName('head')[0].appendChild(a)),mmcore.jQueryArrivalCallbacks=[];}());
+
+mmcore.addJQueryArrivalCallback(function() {// Maxymiser Core - Request v0.1.0 http://gitlab.maxymiser.net/gts/mmcore-request/tree/master
+(function(c,d,e,a,b){'use strict';c=mmcore.jQuery,d='event',e=2250,b=function(){a=c.Deferred(),mmcore.request.promise=a.promise();},mmcore.request=function(f,g){var c=a;return b(),arguments.length||(f=d),mmcore.SetPageID(f),mmcore._async=!g,mmcore.CGRequest(c.resolve),setTimeout(mmcore.tryCatch(c.reject),e),c.promise();},b();}());
+
+// Maxymiser Core - Mediator v0.1.2 http://gitlab.maxymiser.net/gts/mmcore-mediator/tree/master
+(function(a){'use strict';a=mmcore.jQuery,mmcore.makeMediator=function(b){var c;return arguments.length<1&&(b={}),c=a(b),a.each(['off','on','one','trigger'],function(d,a){b[a]=function(){c[a].apply(c,arguments);};}),b;},mmcore.makeMediator(mmcore),mmcore.mediator=mmcore.$(mmcore);}());
+
+// Maxymiser Core - Wait for v0.0.0 http://gitlab.maxymiser.net/gts/wait-for/tree/master
+!function(){"use strict";var a=mmcore.jQuery;mmcore.waitFor=function(b,c){var d,e;return e=a.Deferred(),e.isComplete=function(){return"pending"!==e.state()},c=a.extend({interval:50},c),d=function(){e.isComplete()||(b.call(e)&&e.resolve(),e.isComplete()||(!c.isNotStoppedOnDocumentReadiness&&a.isReady?e.reject():c.isNotPeriodicallyChecked||setTimeout(d,c.interval)))},c.hasOwnProperty("initializer")&&c.initializer.call(e),d(),e.isComplete()||(c.hasOwnProperty("timeout")&&function(){var a=setTimeout(e.reject,c.timeout);e.always(function(){clearTimeout(a)})}(),c.isNotStoppedOnDocumentReadiness||(c.isNotPeriodicallyChecked?(mmcore.AddDocLoadHandler(e.reject),a(document).ready(e.reject)):(mmcore.AddDocLoadHandler(d),a(document).ready(d)))),e.promise()}}();
+
+// Maxymiser Core - Wait for Element Arrival v0.0.1 http://gitlab.maxymiser.net/gts/mmcore-wait-for-element-arrival/tree/master
+(function(a,b){'use strict';a=mmcore.jQuery,b=50,mmcore.waitForElementArrival=function(f,d){var c=a.Deferred();d=a.extend({},d);var e=mmcore.tryCatch(function(){var g;c.state()==='pending'&&(g=a(f).eq(0),g.length&&(a.isReady||mmcore._docEnd||g.closest(':not(:last-child)').length)?c.resolve(g):a.isReady||mmcore._docEnd||d.hasOwnProperty('followingSelector')&&a(d.followingSelector).length?c.reject():setTimeout(e,b));},c.reject);return e(),c.state()==='pending'&&(a(e),mmcore.AddDocLoadHandler(e),d.hasOwnProperty('timeout')&&setTimeout(mmcore.tryCatch(c.reject),d.timeout)),c.promise();};}());
+
+// Maxymiser Core - Campaign v0.2.0 http://gitlab.maxymiser.net/gts/mmcore-campaign/tree/master
+(function(a){'use strict';function b(a,b,c){this.name=a,this.maxyboxNames=b,this.prefix=c,this.preventDefaultRendering(),this.preventDefaultHiding();}a=mmcore.jQuery,mmcore.Campaign=b,b.prototype.preventDefaultRendering=function(){var b=mmcore._r_mbs;a.each(this.maxyboxNames,function(c,a){b[a]=1;});},b.prototype.preventDefaultHiding=function(){var b=this;mmcore.HideMaxyboxes=function(c){return function(){var d=arguments;return mmcore.tryCatch(function(){d=a.grep(d,function(c){return a.inArray(c,b.maxyboxNames)===-1;});})(),d.length?c.apply(this,d):void 0;};}(mmcore.HideMaxyboxes);},b.prototype.hideContent=function(b,c){var d,e;this.hidingClass=this.prefix+'-hidden-content',a('html').addClass(this.hidingClass),arguments.length<2&&(c='left: -33554430px; position: absolute !important; top: -33554430px;'),d=this.hidingClass,e=a.map(a.isArray(b)?b:[b],function(a){return'.'+d+' '+a;}),mmcore.AttachStyle(e.join(',')+'{'+c+'}');},b.prototype.showContent=function(){this.hasOwnProperty('hidingClass')&&a('html').removeClass(this.hidingClass);},b.prototype.getExperience=function(){return mmcore.GenInfo.hasOwnProperty(this.name)?mmcore.GenInfo[this.name]:null;},b.prototype.hasNonDefaultExperience=function(){var b,c;return b=this.getExperience(),b?(c=!1,a.each(b,function(a,d){return b.hasOwnProperty(a)&&d!=='Default'?(c=!0,!1):void 0;}),c):!1;},b.prototype.hasMaxybox=function(){return this.hasNonDefaultExperience();},b.prototype.renderMaxyboxes=function(){var c;var b;b=this.maxyboxNames,arguments.length&&(b=a.grep(arguments,function(c){return a.inArray(c,b)!==-1;})),c=this,a.each(mmcore._renderers,function(e,d){a.inArray(e,b)!==-1&&typeof d==='function'&&d.call(c);});};}());
+
+// Maxymiser Core - Set Action/Criterion v0.0.0 http:/gts/gitlab.maxymiser.net//mmcore-set-action-criterion/tree/master
+(function(a){'use strict';a=mmcore.jQuery,mmcore.setAction=function(c,d,e,b){arguments.length<2&&(d=1),b=a.extend({},b),b.value=d,arguments.length>2&&(b.attribute=e),mmcore.$Action(c,b.value,b.attribute),mmcore.trigger(c,[b]);},mmcore.setCriterion=function(c,d,b){b=a.extend({},b),b.value=d,mmcore.SetPersistentCriterion(c,d),mmcore.trigger(c,[b]);};}());
+
+});
+
+})();
+}catch(err){mmcore.EH(err);}
+try{
+mmcore.addJQueryArrivalCallback(function(){ 
+	var $ = mmcore.$;
+	$(function(){
+		$('input[name="shippingMethod"], input[value="Click & Collect"]').on('click',function(){
+			mmcore.$Action('AddToBasketOption',1,$(this).val());
+		})
+	})
+})
+}catch(err){mmcore.EH(err);}
+try{
+;mmcore.addJQueryArrivalCallback(function() { 
+
+	var $ = mmcore.$,
+		curntUrl = location.pathname;
+
+	function filter(arr, fltrF, succF) { 
+	    var newArr = [];
+	    for (var i = 0; i < arr.length; i++) {
+	        if (fltrF(arr[i])) {
+	            newArr.push(arr[i]);
+	            succF(arr[i]);
+	        }
+	    }
+	    return newArr;
+	}
+
+	function totalCounter(el) { 
+// function stores total revenue of recomend prods to 'mm_recomend_total' cookie
+		var sum = parseInt(mmcore.GetCookie('mm_recomend_total', 1)) || 0;
+		sum += parseInt($('[id*="' + el + '"]').closest('.price').text().replace(/\D/g, '')) || 0;
+		if (sum) {
+			mmcore.SetCookie('mm_recomend_total', sum, 365, 1);
+		} else mmcore.SetCookie('mm_recomend_total', '', -1, 1);
+	}
+
+	if (mmcore.GetCookie('mm_recomend_prod', 1) && /\/itemadded/.test(curntUrl)) {
+// if recomend product was added successfully
+		mmcore.waitFor(function() { 
+			return $('.success.message .product-meta').length;
+		}).done(function() {
+			var addedDate = new Date(),
+				addedProds = mmcore.GetCookie('mm_recomend_prod_id', 1),
+				currProdEl = $('.success.message .product-title>a').attr('href'),
+				currProdId =  currProdEl.match(/[0-9]+_BQ/, '') ? currProdEl.match(/[0-9]+_BQ/, '')[0]: '',
+				regEx = new RegExp(currProdId),
+				reNewProds = regEx.test(addedProds) ? addedProds:
+								addedProds ? addedProds + ',' + currProdId: currProdId;
+// store added prod id to detect it on details page, and adding date
+			mmcore.SetCookie('mm_recomend_prod_id', reNewProds, 365, 1);
+			mmcore.SetCookie('mm_recomend_time', addedDate.getTime(), 365, 1);
+			mmcore.SetCookie('mm_recomend_prod', '', -1, 1);
+		});
+// delete 'mm_recomend_prod' cookie if product not from recomend section
+	} else if (curntUrl !== mmcore.GetCookie('mm_recomend_prod', 1) && !/\/stock-checker/.test(curntUrl)) {
+		mmcore.SetCookie('mm_recomend_prod', '', -1, 1);
+	}
+
+	mmcore.on('mmcore.success.PDP', function() {
+// look for user interaction with recomend section on pdp
+		$(document).on('mousedown touchstart', '#Product_Slot a:not(".carousel-btn, .product-image"), #Product_Slot [type="submit"]', function() {
+			mmcore.SetCookie('mm_recomend_prod', $(this).attr('href').replace(/\?.+/, '') || 'true', 365, 1);
+		});	
+	});
+
+	mmcore.on('mmcore.success.Details', function() {
+//compare stored rec prods with existing order's prods, and set 'mm_recomend_total' cookie with totalCounter's help
+		mmcore.SetCookie('mm_recomend_total', '', -1, 1);
+		mmcore.waitFor(function() {
+			return $('.panel.order-summary').length && mmcore.GetCookie('mm_recomend_prod_id', 1);
+		}).done(function() {
+			var addedProdsArr = mmcore.GetCookie('mm_recomend_prod_id', 1).split(','),
+				reNewProds = filter(addedProdsArr, function(el) {
+					return $('[id*="' + el + '"]').length;
+				}, totalCounter).join(',');
+
+			mmcore.SetCookie('mm_recomend_prod_id', reNewProds, 365, 1);
+		}).fail(function() {
+			mmcore.SetCookie('mm_recomend_prod_id', '', -1, 1);
+		});
+	});
+
+	if (/checkout\/confirmation/.test(curntUrl) && mmcore.GetCookie('mm_recomend_total', 1)) {
+//if confirm page and rec prods were bought than track action, according to duration(since last rec prods was added)
+		var addedDate = mmcore.GetCookie('mm_recomend_time', 1),
+			curntDate = new Date(),
+			duration = (curntDate.getTime() - parseInt(addedDate)) / 3600000,
+			total = mmcore.GetCookie('mm_recomend_total', 1);
+
+		if (duration < 24) mmcore.SetAction('Recs_Purch_Session', total);
+		if (duration < 24*7) mmcore.SetAction('Recs_Purch_One_Week', total);
+		if (duration < 24*14) mmcore.SetAction('Recs_Purch_Two_Week', total);
+		mmcore.SetAction('Recs_Purch_One_Month', total);
+		mmcore.request();
+	}
+});
+}catch(err){mmcore.EH(err);}
+try{
+mmcore.addJQueryArrivalCallback(function(){
+	var $ = mmcore.$;
+
+	function recalculateScores(categoryScoresObject, categoryNameToIncrease, scoreIncreasingValue){
+		var topScoreCategoryName;
+		var topScore = 0;
+		for(var categoryName in categoryScoresObject){
+			if(categoryName === categoryNameToIncrease){
+				categoryScoresObject[categoryName] += scoreIncreasingValue;
+				if(categoryScoresObject[categoryName] > 30){
+					categoryScoresObject[categoryName] = 30;
+				}
+			} else if(categoryScoresObject[categoryName] > 0){
+				categoryScoresObject[categoryName] -= 1;
+			}
+
+			if(categoryScoresObject[categoryName] > topScore){
+				topScore = categoryScoresObject[categoryName];
+				topScoreCategoryName = categoryName;
+			}
+
+		}
+
+		if(categoryScoresObject[categoryNameToIncrease] === categoryScoresObject[topScoreCategoryName]){
+			topScoreCategoryName = categoryNameToIncrease;
+		}
+
+		return topScoreCategoryName;
+	}
+
+	function setItemToGlobalLocalStorage(keyName, value){
+		var globalLSObject = localStorage.getItem('mm-pc-global-helper-object') ? JSON.parse(localStorage.getItem('mm-pc-global-helper-object')) : {};
+		globalLSObject[keyName] = value;
+		localStorage.setItem('mm-pc-global-helper-object', JSON.stringify(globalLSObject));
+	}
+
+	function getItemFromGlobalLocalStorage(keyName){
+		var globalLSObject = localStorage.getItem('mm-pc-global-helper-object') ? JSON.parse(localStorage.getItem('mm-pc-global-helper-object')) : {};
+		if(globalLSObject[keyName]){
+			return globalLSObject[keyName];
+		} else {
+			return false;
+		}
+	}
+
+	function triggerPersCriteriaCahnge(PCName){
+		mmcore.trigger('mmcore.PC.' + PCName);
+	}
+
+	var categoryAssotiativeObject = {
+		'Building Supplies' : 'C1',
+		'Doors & Windows' : 'C2',
+		'Electrical & Security' : 'C3',
+		'Flooring & Tiling' : 'C4',
+		'Heating & Insulation' : 'C5',
+		'Home & Furnishing' : 'C6',
+		'Lighting' : 'C7',
+		'Nails, Screws & Hardware' : 'C8',
+		'Outdoor & Garden' : 'C9',
+		'Paint, Wallpaper & Decorating' : 'C10',
+		'Plumbing' : 'C11',
+		'Sinks, Taps & Baths' : 'C12',
+		'Tools & Equipment' : 'C13',
+		'Bathroom' : 'C14',
+		'Bedroom' : 'C15',
+		'Kitchen' : 'C16',
+		'Living Areas' : 'C17',
+		'Loft' : 'C18',
+		'Garden & Garage' : 'C19'
+	}
+
+
+	////////   PC1   //////// 
+
+	if(!mmcore.GetPersistentCriterion('Customer')){
+		mmcore.SetPersistentCriterion('Customer', 'Visitor');
+		triggerPersCriteriaCahnge('Customer');
+	}
+
+	mmcore.on('mmcore.action.purchase', function(e, data){
+		if(mmcore.GetPersistentCriterion('Customer') !== 'Customer'){
+			mmcore.SetPersistentCriterion('Customer', 'Customer');
+			triggerPersCriteriaCahnge('Customer');
+		}
+	});
+
+	////////   PC2   ////////
+	
+	if(!mmcore.GetPersistentCriterion('PurchaseFreq')){
+		mmcore.SetPersistentCriterion('PurchaseFreq', '0');
+		triggerPersCriteriaCahnge('PurchaseFreq');
+	}
+
+	mmcore.on('mmcore.action.purchase', function(e, data){
+		var purchaseCount = Number(getItemFromGlobalLocalStorage('PC_PurchaseFrequency')) || 0;
+		
+		purchaseCount += 1;
+		
+		setItemToGlobalLocalStorage('PC_PurchaseFrequency', purchaseCount);
+		mmcore.SetPersistentCriterion('PurchaseFreq', purchaseCount);
+		triggerPersCriteriaCahnge('PurchaseFreq');	
+	});
+
+	////////   PC3   ////////
+
+	mmcore.on('mmcore.action.purchase', function(e, data){
+		var purchaseFrequency = Number(getItemFromGlobalLocalStorage('PC_PurchaseFrequency')) || 0;
+		var purchasesTotalValues = Number(getItemFromGlobalLocalStorage('PC_PurchasesTotalValues')) || 0;
+		var averageValue;
+
+		purchasesTotalValues += Number(data.value);
+
+		averageValue = purchasesTotalValues / purchaseFrequency;
+
+		var averageValuesRanges = {
+			'0-50': 5000,
+			'50-75': 7500,
+			'75-100': 10000,
+			'100-250': 25000,
+			'250-500': 50000,
+			'500-1000': 100000,
+			'1000+': Infinity
+		}
+
+		for(var rangeName in averageValuesRanges){
+			if(averageValue <= averageValuesRanges[rangeName]){
+				mmcore.SetPersistentCriterion('PurchaseValue', rangeName);
+				triggerPersCriteriaCahnge('PurchaseValue');
+				break;
+			}
+		}
+
+		setItemToGlobalLocalStorage('PC_PurchasesTotalValues', purchasesTotalValues);
+
+	});
+
+
+
+	////////   PC4   ////////
+
+	if(!getItemFromGlobalLocalStorage('PC_MostViewedCat')){
+
+		var mostViewedCatObj = {
+			'C1' : 0,
+			'C2' : 0,
+			'C3' : 0,
+			'C4' : 0,
+			'C5' : 0,
+			'C6' : 0,
+			'C7' : 0,
+			'C8' : 0,
+			'C9' : 0,
+			'C10' : 0,
+			'C11' : 0,
+			'C12' : 0,
+			'C13' : 0,
+			'C14' : 0,
+			'C15' : 0,
+			'C16' : 0,
+			'C17' : 0,
+			'C18' : 0,
+			'C19' : 0
+		};
+
+		setItemToGlobalLocalStorage('PC_MostViewedCat', mostViewedCatObj);
+		mmcore.SetPersistentCriterion('MostViewedCat', 'Blank');
+	}
+
+	function trackCategoryPC(categoryName, scoreToIncrease){
+		var categoriesObject,
+			topScoreCategory;
+
+		catCode = categoryAssotiativeObject[categoryName];
+		categoriesObject = getItemFromGlobalLocalStorage('PC_MostViewedCat') || {};
+		topScoreCategory = recalculateScores(categoriesObject, catCode, scoreToIncrease);
+
+		if(mmcore.GetPersistentCriterion('MostViewedCat') !== topScoreCategory && topScoreCategory === catCode){
+			mmcore.SetPersistentCriterion('MostViewedCat', categoryName);
+			triggerPersCriteriaCahnge('MostViewedCat');
+		}
+		setItemToGlobalLocalStorage('PC_MostViewedCat', categoriesObject);
+	}
+
+	mmcore.on('mmcore.success.PLP mmcore.success.PDP', function(){
+		$(function(){
+			var category = $('.breadcrumb li:eq(2)').text().replace('[...]', '').trim();
+			var score = (mmcore.pageType === 'PLP') ? 2 : 3; 
+			trackCategoryPC(category, score);
+		});
+	});
+
+	// mmcore.on('mmcore.success.PDP', function(){
+	// 	$(function(){
+	// 		var category = $('.breadcrumb li:eq(2)').text().replace('[...]', '').trim();
+	// 		trackCategoryPC(category, 3);
+	// 	});
+	// });
+
+	////////   PC5   ////////
+
+	if(!getItemFromGlobalLocalStorage('PC_CatAddToBag')){
+
+		var mostViewedCatObj = {
+			'C1' : 0,
+			'C2' : 0,
+			'C3' : 0,
+			'C4' : 0,
+			'C5' : 0,
+			'C6' : 0,
+			'C7' : 0,
+			'C8' : 0,
+			'C9' : 0,
+			'C10' : 0,
+			'C11' : 0,
+			'C12' : 0,
+			'C13' : 0,
+			'C14' : 0,
+			'C15' : 0,
+			'C16' : 0,
+			'C17' : 0,
+			'C18' : 0,
+			'C19' : 0
+		};
+
+		setItemToGlobalLocalStorage('PC_CatAddToBag', mostViewedCatObj);
+		mmcore.SetPersistentCriterion('CatAddToBag', 'Blank');
+	}
+
+	mmcore.on('mmcore.success.AddToBasket', function(){
+		var categoriesObject,
+			topScoreCategory,
+			categoryName;
+
+		categoryName = getItemFromGlobalLocalStorage('PC_MostViewedCat_current_cat');
+		
+		setItemToGlobalLocalStorage('PC_MostViewedCat_current_cat', 0);
+
+		if(!categoryName){
+			return;
+		}
+
+		catCode = categoryAssotiativeObject[categoryName];
+		categoriesObject = getItemFromGlobalLocalStorage('PC_CatAddToBag') || {};
+		topScoreCategory = recalculateScores(categoriesObject, catCode, 2);
+		if(mmcore.GetPersistentCriterion('CatAddToBag') !== topScoreCategory && topScoreCategory === catCode){
+			mmcore.SetPersistentCriterion('CatAddToBag', categoryName);
+			triggerPersCriteriaCahnge('CatAddToBag');
+		}
+		setItemToGlobalLocalStorage('PC_CatAddToBag', categoriesObject);
+	});
+
+	mmcore.on('mmcore.success.PLP mmcore.success.PDP', function(){
+		$(function(){
+			var category = $('.breadcrumb li:eq(2)').text().replace('[...]', '').trim();
+			if(mmcore.pageType === 'PLP'){
+				$('input[name*="AddItemToOrderForm"]').closest('form').on('submit', function(){
+					setItemToGlobalLocalStorage('PC_MostViewedCat_current_cat', category);
+				});
+			} else {
+				$('form.addtocart-bar').on('submit', function(){
+					setItemToGlobalLocalStorage('PC_MostViewedCat_current_cat', category);
+				});
+			}
+		});
+	});
+
+	// mmcore.on('mmcore.success.PDP', function(){
+	// 	$(function(){
+	// 	});
+	// });
+
+	////////   PC6   ////////
+
+	////////   PC7   ////////
+
+	if(/\/diy\/design_consultation_thankyou/.test(location.pathname) && !mmcore.GetPersistentCriterion('BookedDesCons')){
+		mmcore.SetPersistentCriterion('BookedDesCons', 'true');
+		triggerPersCriteriaCahnge('BookedDesCons');	
+	}
+
+	////////   PC8   ////////
+
+	if(location.search.indexOf('mid=') !== -1 && !mmcore.GetPersistentCriterion('EmailUser')){
+		mmcore.SetPersistentCriterion('EmailUser', 'true');
+		triggerPersCriteriaCahnge('EmailUser');	
+	}
+
+	////////   PC10 & PC11 ////////
+
+	if(!mmcore.GetPersistentCriterion('SignedIn')){
+		mmcore.SetPersistentCriterion('SignedIn', 'Blank');
+	}
+
+	if(!mmcore.GetPersistentCriterion('Registered')){
+		mmcore.SetPersistentCriterion('Registered', 'Blank');
+	}
+
+
+	mmcore.on('mmcore.success.SigninReg', function(){
+		mmcore.SetCookie('mm-user-signed-in', '', -1, 1);
+	
+		$(function(){
+			$('form[action*="signIn.jsp"]').on('submit', function(){
+				mmcore.SetCookie('mm-user-signed-in', 'SignedIn', 1, 1);
+			});
+
+			$('form[action*="createAccount.jsp"]').on('submit', function(){
+				mmcore.SetCookie('mm-user-signed-in', 'Registered', 1, 1);
+			});
+		});
+	});
+	
+	$(function(){
+		if( mmcore.GetCookie('mm-user-signed-in', 1)){
+			var pcToTrack = mmcore.GetCookie('mm-user-signed-in', 1);
+			if(mmcore.GetPersistentCriterion(pcToTrack) === 'Blank'){
+				mmcore.SetPersistentCriterion(pcToTrack, 'true');
+				triggerPersCriteriaCahnge(pcToTrack);	
+			}
+		}
+	});
+	
+
+	////////   PC12  ////////
+
+	if(!mmcore.GetPersistentCriterion('UsedSiteSearch')){
+		mmcore.SetPersistentCriterion('UsedSiteSearch', 'Blank');
+	}
+
+	if(mmcore.GetPersistentCriterion('UsedSiteSearch') !== 'true'){
+		$(function(){
+			$('#searchbar_form').on('submit', function(){
+				mmcore.SetPersistentCriterion('UsedSiteSearch', 'true');
+				triggerPersCriteriaCahnge('UsedSiteSearch;');		
+			});
+		});
+	}
+
+	////////   PC13  ////////
+
+	if(!mmcore.GetPersistentCriterion('UsedHelpAdvice')){
+		mmcore.SetPersistentCriterion('UsedHelpAdvice', 'Blank');
+	}
+
+	if(location.pathname.indexOf('/help-advice/') !== -1){
+		$(function(){
+			var category = $('.breadcrumb li:eq(2)').text().replace('[...]', '').trim();
+			if(!category && location.pathname === "/help-advice/1.hroot"){
+				category = 'All rooms';
+			}
+			if(category && mmcore.GetPersistentCriterion('UsedHelpAdvice') !== category){
+				 mmcore.SetPersistentCriterion('UsedHelpAdvice', category);
+			}
+		});
+	}
+
+
+});
+}catch(err){mmcore.EH(err);}
+try{
+mmcore.addJQueryArrivalCallback(function(){ 
+	var $ = mmcore.$;
+	var elements = [
+		'form[action*="/diy-app/product/block/panels/productDetails/fulfillment"]',
+		'form[action*="/diy-app/product/tile/productCommonTile"]',
+		'form[action*="/diy-app/quickOrder/fragment/response-quickorder"]',
+		'form[action*="/diy-app/recommendation/renderer/recommendationProductInfo"]',
+		'form[action*="/diy-app/basket/block/interstitialElements/relatedProductTile"]',
+		'form[action*="/diy-app/customer/block/account/wishlist/wishListDetails.jsp"]',
+		'form[action*="/diy-app/checkout/basket/wishList"]',
+		'form[action*="/diy-app/product/block/comparison/"]'
+	];
+	$(document).on('submit', elements.join(', '), function (){
+		var attr = mmcore.pageType;
+		var data = $(this).serialize();
+		if( data.indexOf('.pDPRedirect')+1 ) {
+			return true;
+		}
+		if( /quick_order/.test(location.pathname) ) {
+			attr = 'QuickOrder';
+		} else if( /wishlist_details/.test(location.pathname) ) {
+			attr = 'WishList';			
+		}
+		mmcore.$Action('M_AddToBasket_Page', 1, attr );
+	});
+});
+}catch(err){mmcore.EH(err);}
+try{
+/**
+ * [script name]
+ * This script's purpose is to [check generation rules, track actions, e.t.c].
+ *
+ * @author Anton Lunov anton.lunov@maxymiser.com
+ * @date 25.11.2015
+ */
+    
+mmcore.addJQueryArrivalCallback(function() {
+
+  var campaign = new mmcore.Campaign('T24_Top_Navigation_Restructure', ['mm_t24_topnav'], 'mt24');
+    
+  campaign.hideContent('BODY', 'visibility:hidden');
+
+  mmcore.waitFor(function() {
+            return typeof($) === "function"
+            && $('#site-navigation').length 
+            && window.innerWidth >= 767;
+        }).then(function () {
+            return mmcore.request('T24');
+        }).done(function () {
+            campaign.renderMaxyboxes();
+        }).always(function () {
+            campaign.showContent();
+        });
+});
+}catch(err){mmcore.EH(err);}
+try{
+/*
+    sitePages - object description
+    
+    sitePages - this is a list of pages on whebsite (which maxymiser trying identify).
+    sitePages.item - contains 3 attributes
+        - rules {string|function} -> what should be on the page, it can be boolean (that means we based only on mask and url checking)
+        - masks {array} -> list of masks where rules should be applied
+            each mask {object} specify which part of url we need to check
+                key -> part of location (pathname, hostname, search)
+                value {string|regexp} -> rules
+                optional: strict {bool} -> when rules should be equal
+            examples:
+                {'pathname' : '/shop.aspx'} 
+                        -> key said which part of location we should check (location.pathname)
+                        -> value said location.pathname (from key) should contains "/shop.aspx"
+                {'pathname':'/', strict: true}
+                        -> additional param strict need if we value should be equal.
+                {'pathname': /(.*)/ig}
+                        -> you can put Reg Exp to check, in this case will be used match method.
+        - domains -> list of domains where this rules and masks should be applied
+        - sendRequest -> should we send request with trigger.
+*/
+
+mmcore.addJQueryArrivalCallback(function () {
+    // list of pages 
+    var sitePages;    
+    var page, PagesClass;
+    
+    PagesClass = function () {};
+    PagesClass.prototype.getDomain = function () {
+        return location.hostname;
+    };
+    PagesClass.prototype.checkMask = function(masks){
+        var result = false,
+            mask,
+            strict = false;
+        for(var i in masks) {
+            mask = masks[i]; 
+            strict = !!mask['strict'];
+            delete mask['strict'];
+            for(var j in mask){
+                if(typeof mask[j] === 'string'){
+                    if(strict) {
+                        result = location[j] === mask[j];
+                    }else{
+                        result = location[j].indexOf(mask[j])!==-1;
+                    }
+                }else if(mask[j] instanceof RegExp){
+                    result = !!location[j].match(mask[j]); 
+                }
+            }
+            if(result === true) break;
+        }
+        return result;
+    };
+    PagesClass.prototype.check = function (name, options) {
+        var self = this,
+            copyRules,
+            rules = options.rules;
+        copyRules = rules;
+        
+        if (!name 
+            || !rules 
+            || !this.checkMask(options.masks) 
+            || options.domains.indexOf(this.getDomain()) === -1) {
+            return;
+        }
+
+        // trigger only if we check by some element on the page
+        self.onStart(name);
+        if(typeof rules === 'string'){
+            rules  = function () {
+                return document.querySelectorAll(copyRules).length;
+                //return mmcore.$(copyRules).length;
+            }
+        }else if(typeof rules === 'boolean' && rules){
+            self.onSuccess(name, options.sendRequest, true);
+            return false;
+        }
+            
+        mmcore.waitFor(rules, {
+			isNotStoppedOnDocumentReadiness: !!options.notStopOnReady
+		})
+        .done(function () {
+            self.onSuccess(name, options.sendRequest);
+        })
+        //.always(function () {
+        .fail(function () {
+            self.onEnd(name);
+        });        
+    };
+    PagesClass.prototype.onSuccess = function (triggerName, sendRequest, sync) {
+        var sendRequest = sendRequest || false,
+            sync = sync || false;
+        
+        if(this.SandBox) console.warn('trigger', 'success', triggerName);
+        mmcore.pageType = triggerName;
+        mmcore.trigger('mmcore.success.' + triggerName, {
+            'domain' : this.getDomain(),
+            'request' : function() {
+                return sendRequest ? mmcore.request(triggerName, sync) : null;
+            }()
+        });
+    };
+    PagesClass.prototype.onStart = function (triggerName) {
+        if(this.SandBox) console.warn('trigger', 'start', triggerName);
+        mmcore.trigger('mmcore.start.' + triggerName, {domain : this.getDomain()});
+    };
+    PagesClass.prototype.onEnd = function (triggerName) {
+        if(this.SandBox) console.warn('trigger', 'end', triggerName);
+        mmcore.trigger('mmcore.end.' + triggerName, {domain : this.getDomain()});
+    };
+    
+    PagesClass.prototype.SandBox = false;
+    
+    PagesClass.prototype.init = function (sitePages) {
+        this.SandBox = (mmcore.GetCookie('cfgid')==='1' && typeof console === 'object');
+        for(var i in sitePages) {
+            this.check(i, sitePages[i]);
+        }
+    };
+    
+    sitePages = {
+        'Homepage' : {
+            'rules' : 'body.homepage',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/', strict:true}],
+            'domains' : ['www.diy.com']
+        },
+        'Departments' : {
+            'rules' : 'body.js-landing-category',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/departments'}],
+            'domains' : ['www.diy.com']
+        },
+        'Rooms' : {
+            'rules' : 'body.js-landing-category',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/rooms'}],
+            'domains' : ['www.diy.com']
+        },
+        'SearchResults' : {
+            'rules' : true,
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/search/results/', 'search' : 'tab=tab-ui-products'}, {'pathname' : '/search/results/'}],
+            'domains' : ['www.diy.com']
+        },
+        'SearchArticlesResults' : {
+            'rules' : true,
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/search/results/', 'search' : 'tab=tab-ui-articles'}],
+            'domains' : ['www.diy.com']
+        },
+        'PLP' : {
+            'rules' : 'body.js-product-listing',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/'}],
+            'domains' : ['www.diy.com']
+        },
+        'PDP' : {
+            'rules' : 'body.js-product-details',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '.prd'}],
+            'domains' : ['www.diy.com']
+        },
+        'AddToBasket' : {
+            'rules' : 'body.js-interstitial',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/itemadded/'}],
+            'domains' : ['www.diy.com']
+        },
+        'Basket' : {
+            'rules' : 'body.js-basket',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/basket'}],
+            'domains' : ['www.diy.com']
+        },
+        'SigninReg' : {
+            'rules' : 'body.js-signin-reg',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/customer/register'}, {'pathname' : '/customer/login'}],
+            'domains' : ['www.diy.com']
+        },
+        'LoginCheckout' : {
+            'rules' : 'body.js-signin-reg',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/checkout/loginorguestcheckout'}],
+            'domains' : ['www.diy.com']
+        },
+        'Details' : {
+            'rules' : 'body.js-checkout-details',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/checkout/details'}],
+            'domains' : ['www.diy.com']
+        },
+        'Delivery' : {
+            'rules' : 'body.js-checkout-delivery',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/checkout/delivery'}],
+            'domains' : ['www.diy.com']
+        },
+        'Payment' : {
+            'rules' : 'body.js-checkout-payment',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/checkout/payment'}],
+            'domains' : ['www.diy.com']
+        },
+        'Review' : {
+            'rules' : 'body.js-checkout-review',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/checkout/review'}],
+            'domains' : ['www.diy.com']
+        },
+        'FindStore' : {
+            'rules' : true,
+            'sendRequest' : true,
+            'masks' : [
+                {
+                    'pathname' : '/find-a-store', 
+                    strict:true
+                }, 
+                {
+                    'pathname' : '/stock-checker/', 
+                    strict:true
+                }, 
+                {
+                    'href' : '/stock-checker?skuId='
+                }
+            ],
+            'domains' : ['www.diy.com']
+        },
+        'StoreResults' : {
+            'rules' : true,
+            'sendRequest' : true,
+            'masks' : [
+                {
+                    'pathname' : '/find-a-store/store-results/', 
+                    strict : true
+                }, 
+                {
+                    'pathname' : '/stock-checker/stock-results/', 
+                    strict : true
+                }
+            ],
+            'domains' : ['www.diy.com']
+        },
+        'Store' : {
+            'rules' : 'body.js-store-locator-details',
+            'sendRequest' : true,
+            'masks' : [{'pathname' : '/store/'}],
+            'domains' : ['www.diy.com']
+        }
+    };
+
+    page = new PagesClass();
+    page.init(sitePages);
+});
+}catch(err){mmcore.EH(err);}
+if(typeof mmcore._callback=='object'&&typeof mmcore._callback[1]=='function'){try{mmcore._callback[1]();}catch(err){mmcore.EH(err);}
+finally{mmcore._callback[1]=null;}}
+})();

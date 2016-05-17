@@ -1,0 +1,8 @@
+mmcore.SetCookie('mmid','-1615888932|DAAAAAo46+aoSg0AAA==',365,1);mmcore.SetCookie('pd','1447909934|GAAAAAoBQjjr5qhKDb1oEwwDAIdIYRLBfdNIDwAAAF9vfO/gbNNIAAAAAP//////////AAZEaXJlY3QBXA0CAAAAAQAAAAAAADWqAAA1qgAANaoAAAIAhG0AAADGFbOYSg0A/////wFKDV8N//8QAAABAAAAAAGlNgEA7Z0BAACBXgAAAKFeT9BKDQD/////AUoNXw3//wgAAAEAAAAAAasUAQCZYwEAAAAAAAFF',365);mmcore.SetCookie('srv','ldnvwcgeu09',365);(function(){if(typeof(mmcore.GenInfo)!='object')mmcore.GenInfo={};mmcore.EH=function(e){var s=e.message+'\r\n';if(!window.mm_error)window.mm_error=s;else window.mm_error+=s;};
+try{
+// Maxymiser Core - Attach Style v0.0.0 http://gitlab.maxymiser.net/gts/mmcore-attach-style/tree/master
+(function(){'use strict';mmcore.AttachStyle=function(){var c={STYLE_ID:"mm-style",createStyle:function(){var b=document.createElement("style");b.type="text/css";return b},appendCssToStyle:function(){var b,a;"styleSheet"in c.createStyle()?(b=function(a){return a.styleSheet.cssText},a=function(a,b){a.styleSheet.cssText=b}):(b=function(a){return a.innerHTML},a=function(a,b){a.innerHTML=b});return(c.appendCssToStyle=function(c,d){a(d,b(d)+c)}).apply(this,arguments)}};return function(b){var a=document.getElementById(c.STYLE_ID);a||(a=c.createStyle(),a.id=c.STYLE_ID,function(){this.parentNode.insertBefore(a,this)}.call(document.getElementsByTagName("head")[0].lastChild));c.appendCssToStyle(b,a)}}()})();
+}catch(err){mmcore.EH(err);}
+if(typeof mmcore._callback=='object'&&typeof mmcore._callback[3]=='function'){try{mmcore._callback[3]();}catch(err){mmcore.EH(err);}
+finally{mmcore._callback[3]=null;}}
+})();
